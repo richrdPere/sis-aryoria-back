@@ -1,8 +1,13 @@
-module.exports = (db)=>{
+module.exports = (db) => {
 
+    // - Auth
     require("./auth.associations")(db);
 
-    require("./personas.associations")(db);
+    // - Personas
+    // require("./personas.associations")(db);
+
+    // - Empresas
+    // require("./empresas.associations")(db);
 
     // require("./clientes.associations")(db);
 

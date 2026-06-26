@@ -33,16 +33,6 @@ const Usuario = sequelize.define("Usuario", {
     allowNull: false,
   },
 
-  rol: {
-    type: DataTypes.ENUM(
-      "SUPER_ADMIN",   // dueño del SaaS
-      "ADMIN",         // dueño del negocio
-      "EMPLEADO",      // registra movimientos
-      "CONTADOR"       // ve reportes
-    ),
-    defaultValue: "ADMIN",
-  },
-
   estado: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

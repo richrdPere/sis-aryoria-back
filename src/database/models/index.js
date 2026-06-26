@@ -2,19 +2,42 @@ const sequelize = require("../../config/database");
 
 const db = {};
 
+// CONEXIÓN
 db.sequelize = sequelize;
 
-// Modelos
-db.Persona = require("./persona.model");
+
+// MODELOS
+
+// - Auth
 db.Usuario = require("./auth/usuario.model");
+db.Roles = require("./auth/roles.model");
+db.UsuarioRol = require("./auth/usuario_rol.model");
+
+// - Persona
+db.Persona = require("./personas/persona.model");
+
+// - Empresas
+db.Empresa = require("./empresas/empresa.model");
+// db.EmpresaPersona = require("./empresas/empresa_persona.model");
+
+// // - Categorias
+// db.Categorias = require("./categorias.model");
+// db.Venta = require("./ventas.model");
+
+
+// CARGAR ASOCIACIONES
+require("../associations")(db);
+
+
+// EXPORT
+module.exports = db;
+
 // db.Rol = require("./auth/rol.model");
 // db.UsuarioRol = require("./auth/usuario_rol.model");
 // db.Empresa = require("./empresas/empresa.model");
 // db.Cliente = require("./clientes/cliente.model");
 
 
-// Exports
-module.exports = db;
 
 // // Importar modelos
 // const Usuario = require("./usuarios.model");
