@@ -61,7 +61,7 @@ async function crearAdminPorDefecto() {
         const passwordHashed = await bcrypt.hash("123456", 12);
 
         const usuario = await Usuario.create({
-            username: "administrador",
+            username: "73081247",
             email: "admin@sistema.com",
             password: passwordHashed,
             estado: true,

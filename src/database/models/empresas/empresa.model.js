@@ -8,6 +8,11 @@ const Empresa = sequelize.define("Empresa", {
     autoIncrement: true,
   },
 
+  id_usuario: {
+    type: DataTypes.BIGINT,
+    allowNull: false,
+  },
+
   razon_social: {
     type: DataTypes.STRING(200),
     allowNull: false,

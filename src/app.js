@@ -32,7 +32,7 @@ const startServer = async () => {
     console.log("✅ Conexión a MySQL establecida");
 
     // 1. Sincronizar modelos (crea tablas si no existen)
-    await db.sequelize.sync({ alter: true });
+    await db.sequelize.sync({ alter: false });
     console.log("📦 Modelos sincronizados");
 
     // 2. CREAR ROLES

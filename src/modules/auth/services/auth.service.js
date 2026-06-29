@@ -8,7 +8,7 @@ const {
   sequelize,
   Persona,
   Usuario,
-  Rol,
+  Roles,
   UsuarioRol
 } = db;
 
@@ -30,7 +30,7 @@ const login = async ({
         as: "persona"
       },
       {
-        model: Rol,
+        model: Roles,
         as: "roles",
         through: {
           attributes: []

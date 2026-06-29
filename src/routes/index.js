@@ -3,6 +3,7 @@ const express = require("express");
 // const authRoutes = require("./auth.routes");
 const authRoutes = require("../modules/auth/routes/auth.routes");
 const roleRoutes = require("../modules/auth/routes/role.routes");
+const empresaRoutes = require("../modules/empresas/routes/empresas.routes");
 
 // const categoriasRoutes = require("./categoria.routes");
 // const comprasRoutes = require("./compras.routes");
@@ -18,6 +19,7 @@ const router = express.Router();
 //  rutas
 router.use("/auth", authRoutes);
 router.use("/role", roleRoutes);
+router.use("/empresas", empresaRoutes);
 
 // router.use("/categorias", categoriasRoutes);
 // router.use("/compras", comprasRoutes);

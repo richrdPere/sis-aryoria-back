@@ -8,7 +8,7 @@ const {
   sequelize,
   Persona,
   Usuario,
-  Rol,
+  Roles,
   UsuarioRol
 } = db;
 
@@ -22,121 +22,189 @@ const register = async (data) => {
     const {
       persona,
       usuario,
-      roles = []
+      roles = [],
     } = data;
 
-    // - Validaciones
+    //--------------------------------------------------
+    // Validaciones Persona
+    //--------------------------------------------------
+
     const personaExistente = await Persona.findOne({
       where: {
-        numero_documento: persona.numero_documento
+        numero_documento: persona.numero_documento,
       },
-      transaction
+      transaction,
     });
 
     if (personaExistente) {
       throw new Error("Ya existe una persona con ese documento.");
     }
 
+    if (persona.email) {
+
+      const emailPersona = await Persona.findOne({
+        where: {
+          email: persona.email,
+        },
+        transaction,
+      });
+
+      if (emailPersona) {
+        throw new Error("El correo ya pertenece a otra persona.");
+      }
+    }
+
+    //--------------------------------------------------
+    // Validaciones Usuario
+    //--------------------------------------------------
+
     const usuarioExistente = await Usuario.findOne({
       where: {
-        username: usuario.username
+        username: usuario.username,
       },
-      transaction
+      transaction,
     });
 
     if (usuarioExistente) {
       throw new Error("El nombre de usuario ya existe.");
     }
 
-    const emailExistente = await Usuario.findOne({
+    const emailUsuario = await Usuario.findOne({
       where: {
-        email: usuario.email
+        email: usuario.email,
       },
-      transaction
+      transaction,
     });
 
-    if (emailExistente) {
+    if (emailUsuario) {
       throw new Error("El correo del usuario ya existe.");
     }
 
-    // ============================
+    //--------------------------------------------------
+    // Validar Roles
+    //--------------------------------------------------
+
+    let rolesDB = [];
+
+    if (roles.length > 0) {
+
+      rolesDB = await Roles.findAll({
+        where: {
+          nombre: roles,
+          estado: true,
+        },
+        transaction,
+      });
+
+      if (rolesDB.length !== roles.length) {
+
+        const encontrados = rolesDB.map(r => r.nombre);
+
+        const faltantes = roles.filter(
+          r => !encontrados.includes(r)
+        );
+
+        throw new Error(
+          `Los siguientes roles no existen: ${faltantes.join(", ")}`
+        );
+      }
+
+    }
+
+    //--------------------------------------------------
     // Crear Persona
-    // ============================
+    //--------------------------------------------------
+
     const nuevaPersona = await Persona.create(
       persona,
       { transaction }
     );
 
-    // - Hash Password
+    //--------------------------------------------------
+    // Hash Password
+    //--------------------------------------------------
     const passwordHash = await bcrypt.hash(
       usuario.password,
       10
     );
 
-    // ============================
+    //--------------------------------------------------
     // Crear Usuario
-    // ============================
-    const nuevoUsuario = await Usuario.create({
-      ...usuario,
-      id_persona: nuevaPersona.id_persona,
-      password: passwordHash
-    }, {
-      transaction
-    });
+    //--------------------------------------------------
+    const nuevoUsuario = await Usuario.create(
+      {
+        ...usuario,
+        id_persona: nuevaPersona.id_persona,
+        password: passwordHash,
+      },
+      {
+        transaction,
+      }
+    );
 
-    // ============================
+    //--------------------------------------------------
     // Asignar Roles
-    // ============================
-    if (roles.length > 0) {
-
-      const rolesDB = await Rol.findAll({
-        where: {
-          nombre: roles
-        },
-        transaction
-      });
-
-      const usuarioRoles = rolesDB.map(rol => ({
-        id_usuario: nuevoUsuario.id_usuario,
-        id_rol: rol.id_rol
-      }));
+    //--------------------------------------------------
+    if (rolesDB.length > 0) {
 
       await UsuarioRol.bulkCreate(
-        usuarioRoles,
-        { transaction }
+
+        rolesDB.map((rol) => ({
+          id_usuario: nuevoUsuario.id_usuario,
+          id_rol: rol.id_rol,
+        })),
+
+        {
+          transaction,
+        }
+
       );
+
     }
 
+    //--------------------------------------------------
+    // Commit
+    //--------------------------------------------------
     await transaction.commit();
 
+    //--------------------------------------------------
+    // Retornar Usuario
+    //--------------------------------------------------
     return await Usuario.findByPk(
       nuevoUsuario.id_usuario,
       {
         attributes: {
-          exclude: ["password"]
+          exclude: ["password"],
         },
+
         include: [
+
           {
             model: Persona,
-            as: "persona"
+            as: "persona",
           },
+
           {
-            model: Rol,
+            model: Roles,
             as: "roles",
             through: {
-              attributes: []
-            }
-          }
-        ]
+              attributes: [],
+            },
+            attributes: [
+              "id_rol",
+              "nombre",
+              "descripcion",
+              "estado",
+            ],
+          },
+        ],
       }
     );
-
   } catch (error) {
     await transaction.rollback();
     throw error;
   }
 };
-
 
 module.exports = {
   register,
