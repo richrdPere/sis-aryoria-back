@@ -6,8 +6,11 @@ const {
   updateCategoriaService, 
   deleteCategoriaService } = require("../services");
 
-
-// 1. Crear categoria
+/*
+|--------------------------------------------------------------------------
+| 1. Crear categoria
+|--------------------------------------------------------------------------
+*/
 const createCategoria = async (req, res) => {
 
   try {
@@ -28,8 +31,11 @@ const createCategoria = async (req, res) => {
     });
   }
 };
-
-// 2. Listar Categorias con paginado
+/*
+|--------------------------------------------------------------------------
+| 2. Listar Categorias con paginado
+|--------------------------------------------------------------------------
+*/
 const getCategoriasPaginado = async (req, res) => {
   try {
 
@@ -52,8 +58,11 @@ const getCategoriasPaginado = async (req, res) => {
     });
   }
 };
-
-// 3.- Obtener categoria por ID
+/*
+|--------------------------------------------------------------------------
+| 3.- Obtener categoria por ID
+|--------------------------------------------------------------------------
+*/
 const getCategoriaById = async (req, res) => {
 
   try {
@@ -75,8 +84,11 @@ const getCategoriaById = async (req, res) => {
     });
   }
 };
-
-// 4.- Obtener categorias por Tipo
+/*
+|--------------------------------------------------------------------------
+| 4.- Obtener categorias por Tipo
+|--------------------------------------------------------------------------
+*/
 const getCategoriaByTipo = async (req, res) => {
   try {
     const { tipo } = req.params;
@@ -100,8 +112,11 @@ const getCategoriaByTipo = async (req, res) => {
     });
   }
 };
-
-// 5. Actualizar categoria
+/*
+|--------------------------------------------------------------------------
+| 5. Actualizar categoria
+|--------------------------------------------------------------------------
+*/
 const updateCategoria = async (req, res) => {
 
   try {
@@ -123,8 +138,11 @@ const updateCategoria = async (req, res) => {
     });
   }
 };
-
-// 6. Eliminar categoria
+/*
+|--------------------------------------------------------------------------
+| 6. Eliminar categoria
+|--------------------------------------------------------------------------
+*/
 const deleteCategoria = async (req, res) => {
 
   try {

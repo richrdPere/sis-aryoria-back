@@ -5,6 +5,7 @@ const authRoutes = require("../modules/auth/routes/auth.routes");
 const roleRoutes = require("../modules/auth/routes/role.routes");
 const empresaRoutes = require("../modules/empresas/routes/empresas.routes");
 const categoriaRoutes = require("../modules/categorias/routes/categoria.route");
+const periodoCRoutes = require("../modules/periodo_contable/routes/periodo.route");
 
 // const categoriasRoutes = require("./categoria.routes");
 // const comprasRoutes = require("./compras.routes");
@@ -22,6 +23,7 @@ router.use("/auth", authRoutes);
 router.use("/role", roleRoutes);
 router.use("/empresas", empresaRoutes);
 router.use("/categorias", categoriaRoutes);
+router.use("/periodo-contable", periodoCRoutes);
 
 // router.use("/categorias", categoriasRoutes);
 // router.use("/compras", comprasRoutes);

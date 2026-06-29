@@ -2,54 +2,54 @@ const { newEmpresaService, updateEmpresaService, getEmpresasService, deleteEmpre
 
 // 1. Crear Empresa
 const newEmpresa = async (req, res) => {
-    try {
-        const empresa = await newEmpresaService(req.body);
+  try {
+    const empresa = await newEmpresaService(req.body);
 
-        return res.status(201).json({
-            success: true,
-            message: "Empresa creada correctamente.",
-            data: empresa,
-        });
-    } catch (error) {
-        console.error(error);
+    return res.status(201).json({
+      success: true,
+      message: "Empresa creada correctamente.",
+      data: empresa,
+    });
+  } catch (error) {
+    console.error(error);
 
-        return res.status(400).json({
-            success: false,
-            message: error.message,
-        });
-    }
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 // 2. Listar Empresas paginado
 const getEmpresasPaginated = async (req, res) => {
-    try {
-        const {
-            page = 1,
-            limit = 10,
-            search = "",
-        } = req.query;
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      search = "",
+    } = req.query;
 
-        const resultado = await getEmpresasService({
-            page,
-            limit,
-            search,
-        });
+    const resultado = await getEmpresasService({
+      page,
+      limit,
+      search,
+    });
 
-        return res.status(200).json({
-            success: true,
-            message: "Empresas obtenidas correctamente.",
-            data: resultado.empresas,
-            pagination: resultado.pagination,
-        });
-    } catch (error) {
-        console.error(error);
+    return res.status(200).json({
+      success: true,
+      message: "Empresas obtenidas correctamente.",
+      data: resultado.empresas,
+      pagination: resultado.pagination,
+    });
+  } catch (error) {
+    console.error(error);
 
-        return res.status(500).json({
-            success: false,
-            message: "Error al listar empresas.",
-            error: error.message,
-        });
-    }
+    return res.status(500).json({
+      success: false,
+      message: "Error al listar empresas.",
+      error: error.message,
+    });
+  }
 };
 
 // 3. Aztualizar empresa
@@ -121,9 +121,9 @@ const getEmpresaById = async (req, res) => {
 };
 
 module.exports = {
-    newEmpresa,
-    getEmpresasPaginated,
-    updateEmpresa,
-    deleteEmpresa,
-    getEmpresaById
+  newEmpresa,
+  getEmpresasPaginated,
+  updateEmpresa,
+  deleteEmpresa,
+  getEmpresaById
 };
