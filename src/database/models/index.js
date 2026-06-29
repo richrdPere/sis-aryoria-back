@@ -12,17 +12,15 @@ db.sequelize = sequelize;
 db.Usuario = require("./auth/usuario.model");
 db.Roles = require("./auth/roles.model");
 db.UsuarioRol = require("./auth/usuario_rol.model");
-
-// - Persona
 db.Persona = require("./personas/persona.model");
 
 // - Empresas
 db.Empresa = require("./empresas/empresa.model");
-// db.EmpresaPersona = require("./empresas/empresa_persona.model");
 
-// // - Categorias
-// db.Categorias = require("./categorias.model");
-// db.Venta = require("./ventas.model");
+// - Finanzas
+db.Categoria = require("./finanzas/categorias.model");
+db.PeriodoContable = require("./finanzas/periodo_contable.model");
+db.Movimiento = require("./finanzas/movimiento.model");
 
 
 // CARGAR ASOCIACIONES
