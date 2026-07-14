@@ -1,4 +1,4 @@
-const { newEmpresaService, updateEmpresaService, getEmpresasService, deleteEmpresaService, getEmpresaByIdService } = require("../services");
+const { newEmpresaService, updateEmpresaService, getEmpresasService, deleteEmpresaService, getEmpresaByIdService, selectEmpresaService } = require("../services");
 
 // 1. Crear Empresa
 const newEmpresa = async (req, res) => {
@@ -29,7 +29,10 @@ const getEmpresasPaginated = async (req, res) => {
       search = "",
     } = req.query;
 
+    const id_usuario = req.usuario.id_usuario;
+
     const resultado = await getEmpresasService({
+      id_usuario,
       page,
       limit,
       search,
@@ -120,10 +123,40 @@ const getEmpresaById = async (req, res) => {
   }
 };
 
+// 6. Seleccionar empresa
+const selectEmpresa = async (req, res, next) => {
+
+  try {
+
+    const response =
+      await selectEmpresaService({
+        id_usuario: req.usuario.id_usuario,
+        id_empresa: req.body.id_empresa,
+      });
+
+    return res.status(200).json({
+      success: true,
+      message: "Empresa seleccionada correctamente.",
+      data: response,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+
+};
+
+
 module.exports = {
   newEmpresa,
   getEmpresasPaginated,
   updateEmpresa,
   deleteEmpresa,
-  getEmpresaById
+  getEmpresaById,
+  selectEmpresa
 };

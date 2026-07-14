@@ -1,9 +1,9 @@
-const { 
-  createCategoriaService, 
-  getCategoriasService, 
-  getCategoriaByIdService, 
-  getCategoriaByTipoService, 
-  updateCategoriaService, 
+const {
+  createCategoriaService,
+  getCategoriasService,
+  getCategoriaByIdService,
+  getCategoriaByTipoService,
+  updateCategoriaService,
   deleteCategoriaService } = require("../services");
 
 /*
@@ -39,14 +39,14 @@ const createCategoria = async (req, res) => {
 const getCategoriasPaginado = async (req, res) => {
   try {
 
-    const categorias = await getCategoriasService(req.query);
+    const resultado = await getCategoriasService(req.query);
 
     return res.status(200).json({
 
       success: true,
       message: "Categorías obtenidas correctamente.",
-
-      data: categorias
+      data: resultado.categorias,
+      pagination: resultado.pagination,
 
     });
 
@@ -54,7 +54,8 @@ const getCategoriasPaginado = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: error.message
+      message: "Error al listar las categorias.",
+      error: error.message
     });
   }
 };

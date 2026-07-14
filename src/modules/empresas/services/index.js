@@ -3,11 +3,13 @@ const getEmpresasService = require("./getEmpresasPaginated.service");
 const updateEmpresaService = require("./updateEmpresa.service");
 const deleteEmpresaService = require("./deleteEmpresa.service");
 const getEmpresaByIdService = require("./getEmpresaById.service");
+const selectEmpresaService = require("./selectEmpresa.service");
 
 module.exports = {
     newEmpresaService,
     getEmpresasService,
     updateEmpresaService,
     deleteEmpresaService,
-    getEmpresaByIdService
+    getEmpresaByIdService,
+    selectEmpresaService
 };

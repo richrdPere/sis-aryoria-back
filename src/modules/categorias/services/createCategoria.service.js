@@ -1,5 +1,6 @@
 const db = require("../../../database/models");
 
+// Modelos
 const { Categoria, Empresa, } = db;
 
 

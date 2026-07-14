@@ -74,7 +74,8 @@ const login = async ({
 
   return {
     token,
-    usuario
+    usuario,
+    empresa: null,
   };
 
 };

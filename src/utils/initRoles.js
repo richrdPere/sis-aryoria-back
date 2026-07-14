@@ -5,10 +5,11 @@ async function crearRolesPorDefecto() {
     console.log("🔍 Verificando roles por defecto...");
 
     const rolesSistema = [
-      "SUPER_ADMIN",    // dueño del SaaS
-      "ADMIN",          // dueño del negocio
-      "EMPLEADO",       // registra movimientos
-      "CONTADOR",       // ve reportes
+      "SUPER_ADMIN",    // Administrador del SaaS. Solo existe para la plataforma.
+      "ADMIN",          // Administrador de una empresa.
+      "EMPLEADO",       // Empleado de una empresa.
+      "CONTADOR",       // Contador de una empresa.
+      "USUARIO"         // Usuario recién registrado. Todavía no administra ninguna empresa.
     ];
 
     for (const nombre of rolesSistema) {

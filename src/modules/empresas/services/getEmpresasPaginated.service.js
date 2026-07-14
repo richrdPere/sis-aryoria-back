@@ -5,6 +5,7 @@ const db = require("../../../database/models");
 const { Empresa } = db;
 
 const listarEmpresas = async ({
+    id_usuario,
     page = 1,
     limit = 10,
     search = "",
@@ -14,7 +15,7 @@ const listarEmpresas = async ({
 
     const offset = (page - 1) * limit;
 
-    const where = {};
+    const where = { id_usuario };
 
     if (search) {
         where[Op.or] = [
