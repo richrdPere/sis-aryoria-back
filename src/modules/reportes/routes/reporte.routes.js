@@ -19,3 +19,13 @@ router.get('/categorias', authMiddleware, getReporteCategoriasController);
 router.get('/resumen-periodo', authMiddleware, getResumenPeriodoController);
 
 module.exports = router;
+
+// TODO: Add more report routes as needed
+// GET /api/reportes/resumen-general
+// GET /api/reportes/resumen-subcategorias
+// GET /api/reportes/flujo-caja
+// GET /api/reportes/flujo-anual
+// GET /api/reportes/comparacion-mensual
+// GET /api/reportes/estado-movimientos
+// GET /api/reportes/cuentas
+// GET /api/reportes/presupuestos

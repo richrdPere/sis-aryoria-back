@@ -9,10 +9,8 @@ module.exports = (db) => {
     // - Finanzas
     require("./finanzas.associations")(db);
 
-    // require("./clientes.associations")(db);
+    // - Movimientos    
+    require("./movimientos.associations")(db);
 
-    // require("./empresas.associations")(db);
-
-    // require("./proyectos.associations")(db);
 
 }

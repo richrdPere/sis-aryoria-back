@@ -35,6 +35,12 @@ const startServer = async () => {
     await db.sequelize.sync({ alter: false });
     console.log("📦 Modelos sincronizados");
 
+
+    // if (process.env.NODE_ENV === "development") {
+    //   await db.sequelize.sync();
+    //   console.log("📦 Tablas faltantes verificadas");
+    // }
+
     // 2. CREAR ROLES
     await crearRolesPorDefecto();
 

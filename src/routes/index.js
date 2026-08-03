@@ -7,6 +7,7 @@ const empresaRoutes = require("../modules/empresas/routes/empresas.routes");
 const categoriaRoutes = require("../modules/categorias/routes/categoria.route");
 const periodoCRoutes = require("../modules/periodo_contable/routes/periodo.route");
 const movimientoRoutes = require("../modules/movimientos/routes/movimiento.route");
+const reporteRoutes = require("../modules/reportes/routes/reporte.routes");
 // const categoriasRoutes = require("./categoria.routes");
 // const comprasRoutes = require("./compras.routes");
 // const egresosRoutes = require("./egresos.routes");
@@ -25,6 +26,7 @@ router.use("/empresas", empresaRoutes);
 router.use("/categorias", categoriaRoutes);
 router.use("/periodo-contable", periodoCRoutes);
 router.use("/movimientos", movimientoRoutes);
+router.use("/reportes", reporteRoutes);
 
 // router.use("/categorias", categoriasRoutes);
 // router.use("/compras", comprasRoutes);
