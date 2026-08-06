@@ -1,6 +1,6 @@
 const express = require("express");
+const router = express.Router();
 
-// const authRoutes = require("./auth.routes");
 const authRoutes = require("../modules/auth/routes/auth.routes");
 const roleRoutes = require("../modules/auth/routes/role.routes");
 const empresaRoutes = require("../modules/empresas/routes/empresas.routes");
@@ -8,16 +8,10 @@ const categoriaRoutes = require("../modules/categorias/routes/categoria.route");
 const periodoCRoutes = require("../modules/periodo_contable/routes/periodo.route");
 const movimientoRoutes = require("../modules/movimientos/routes/movimiento.route");
 const reporteRoutes = require("../modules/reportes/routes/reporte.routes");
-// const categoriasRoutes = require("./categoria.routes");
-// const comprasRoutes = require("./compras.routes");
-// const egresosRoutes = require("./egresos.routes");
-// const empresasRoutes = require("./empresas.routes");
-// const ingresosRoutes = require("./ingresos.routes");
-// const planRoutes = require("./plan.routes");
-// const ventasRoutes = require("./ventas.routes");
-// const usuariosRoutes = require("./usuario.routes");
+const subcategoriaRoutes = require("../modules/subcategoria/routes/subcategoria.routes");
 
-const router = express.Router();
+
+
 
 //  rutas
 router.use("/auth", authRoutes);
@@ -27,14 +21,6 @@ router.use("/categorias", categoriaRoutes);
 router.use("/periodo-contable", periodoCRoutes);
 router.use("/movimientos", movimientoRoutes);
 router.use("/reportes", reporteRoutes);
-
-// router.use("/categorias", categoriasRoutes);
-// router.use("/compras", comprasRoutes);
-// router.use("/egresos", egresosRoutes);
-// router.use("/empresas", empresasRoutes);
-// router.use("/ingresos", ingresosRoutes);
-// router.use("/plan", planRoutes);
-// router.use("/ventas", ventasRoutes);
-// router.use("/usuarios", usuariosRoutes);
+router.use("/subcategorias", subcategoriaRoutes);
 
 module.exports = router;
