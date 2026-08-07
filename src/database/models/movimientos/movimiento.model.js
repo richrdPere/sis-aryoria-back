@@ -21,7 +21,7 @@ const Movimiento = sequelize.define("Movimiento", {
 
   id_subcategoria: {
     type: DataTypes.BIGINT,
-    allowNull: true,
+    allowNull: false,
   },
 
   id_cuenta: {
@@ -93,10 +93,12 @@ const Movimiento = sequelize.define("Movimiento", {
 
   observacion: {
     type: DataTypes.TEXT,
+    allowNull: true,
   },
 
   comprobante: {
     type: DataTypes.STRING(100),
+    allowNull: true,
   },
 
   estado: {
@@ -105,11 +107,13 @@ const Movimiento = sequelize.define("Movimiento", {
       "PAGADO",
       "ANULADO"
     ),
+    allowNull: false,
     defaultValue: "PAGADO",
   },
 
   activo: {
     type: DataTypes.BOOLEAN,
+    allowNull: false,
     defaultValue: true,
   }
 },

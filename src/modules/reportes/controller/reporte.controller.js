@@ -2,7 +2,8 @@ const {
   getEvolucionPeriodoService,
   getReporteCategoriasService,
   getReporteGeneralService,
-  getResumenPeriodoService
+  getResumenAnualService,
+  getResumenPeriodoService,
 } = require("../services")
 
 /*
@@ -298,11 +299,62 @@ const getResumenPeriodoController = async (req, res) => {
       });
   }
 };
+/*
+|--------------------------------------------------------------------------
+| 5. Obtener Resumen Anual
+|--------------------------------------------------------------------------
+*/
+const getResumenAnualController = async (req, res) => {
+  try {
+
+    const {
+      id_empresa,
+      anio
+    } = req.query;
+
+
+
+
+    if (!id_empresa) {
+      return res.status(400).json({
+        success: false,
+        message: "No se pudo identificar la empresa activa.",
+      });
+    }
+
+    if (!anio) {
+      return res.status(400).json({
+        success: false,
+        message: "Debe indicar el año del resumen.",
+      });
+    }
+
+    const data = await getResumenAnualService(req.query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Resumen anual obtenido correctamente.",
+      data,
+    });
+  } catch (error) {
+    console.error(
+      "Error al obtener resumen anual:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "No se pudo obtener el resumen anual.",
+      error: error.message,
+    });
+  }
+}
 
 
 module.exports = {
   getEvolucionPeriodoController,
   getReporteCategoriasController,
   getReporteGeneralController,
-  getResumenPeriodoController
+  getResumenAnualController,
+  getResumenPeriodoController,
 };

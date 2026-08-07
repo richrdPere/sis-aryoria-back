@@ -25,18 +25,22 @@ const Categoria = sequelize.define("Categoria", {
   },
   descripcion: {
     type: DataTypes.STRING(255),
+    allowNull: true,
   },
 
   color: {
     type: DataTypes.STRING(20),
+    allowNull: true,
   },
 
   icono: {
     type: DataTypes.STRING(100),
+    allowNull: true,
   },
 
   estado: {
     type: DataTypes.BOOLEAN,
+    allowNull: false,
     defaultValue: true,
   }
 
@@ -47,6 +51,22 @@ const Categoria = sequelize.define("Categoria", {
   createdAt: "created_at",
   updatedAt: "updated_at",
   deletedAt: "deleted_at",
+
+  indexes: [
+    {
+      name: "uq_categoria_empresa_tipo_nombre",
+      unique: true,
+      fields: ["id_empresa", "tipo", "nombre"],
+    },
+    {
+      name: "idx_categoria_empresa_estado",
+      fields: ["id_empresa", "estado"],
+    },
+    {
+      name: "idx_categoria_empresa_tipo_estado",
+      fields: ["id_empresa", "tipo", "estado"],
+    },
+  ],
 });
 
 module.exports = Categoria;

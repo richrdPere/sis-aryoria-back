@@ -6,17 +6,20 @@ const {
     getEvolucionPeriodoController,
     getReporteCategoriasController,
     getReporteGeneralController,
+    getResumenAnualController,
     getResumenPeriodoController,
 } = require('../controller/reporte.controller');
 
 // Middleware
 const authMiddleware = require('../../../middlewares/auth.middleware',);
+router.use(authMiddleware);
 
 // Routes
-router.get('/general', authMiddleware, getReporteGeneralController);
-router.get('/evolucion-periodo', authMiddleware, getEvolucionPeriodoController);
-router.get('/categorias', authMiddleware, getReporteCategoriasController);
-router.get('/resumen-periodo', authMiddleware, getResumenPeriodoController);
+router.get('/general', getReporteGeneralController);
+router.get('/evolucion-periodo', getEvolucionPeriodoController);
+router.get('/categorias', getReporteCategoriasController);
+router.get('/resumen-periodo', getResumenPeriodoController);
+router.get('/resumen-anual', getResumenAnualController);
 
 module.exports = router;
 

@@ -97,6 +97,14 @@ const Subcategoria = sequelize.define(
         name: "idx_subcategoria_categoria_estado",
         fields: ["id_categoria", "estado"],
       },
+      {
+        name: "idx_subcategoria_categoria_estado_orden",
+        fields: [
+          "id_categoria",
+          "estado",
+          "orden",
+        ],
+      },
     ],
   }
 );
