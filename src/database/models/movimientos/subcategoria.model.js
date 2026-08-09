@@ -51,6 +51,23 @@ const Subcategoria = sequelize.define(
       },
     },
 
+    naturaleza: {
+      type: DataTypes.ENUM(
+        "VENTA",
+        "COMPRA",
+        "OTRO"
+      ),
+      allowNull: false,
+      defaultValue: "OTRO",
+
+      validate: {
+        isIn: {
+          args: [["VENTA", "COMPRA", "OTRO"]],
+          msg: "La naturaleza debe ser VENTA, COMPRA u OTRO.",
+        },
+      },
+    },
+
     es_predeterminada: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

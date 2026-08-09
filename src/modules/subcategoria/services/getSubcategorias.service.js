@@ -169,10 +169,8 @@ const getSubcategoriasService = async ({
             page: paginaActual,
             limit: limiteActual,
             total_pages: totalPages,
-            has_next_page:
-                paginaActual < totalPages,
-            has_previous_page:
-                paginaActual > 1,
+            has_next_page: paginaActual < totalPages,
+            has_previous_page: paginaActual > 1,
         },
     };
 };

@@ -1,16 +1,26 @@
 const express = require("express");
 const router = express.Router();
 
-const { newEmpresa, getEmpresasPaginated, updateEmpresa, deleteEmpresa, getEmpresaById, selectEmpresa } = require("../controllers/empresa.controller");
-
 // Middleware
-const verificarToken = require("../../../middlewares/auth.middleware");
+const authMiddleware = require("../../../middlewares/auth.middleware");
+router.use(authMiddleware);
 
-router.post("/crear", verificarToken, newEmpresa);
-router.get("/paginated", verificarToken, getEmpresasPaginated);
-router.put("/editar/:id", verificarToken, updateEmpresa);
-router.delete("/eliminar/:id", verificarToken, deleteEmpresa);
-router.get("/detalle/:id", verificarToken, getEmpresaById);
-router.post("/seleccionar", verificarToken, selectEmpresa)
+// Controllers
+const {
+    deleteEmpresaController,
+    getEmpresaByIdController,
+    getEmpresasPaginatedController,
+    newEmpresaController,
+    selectEmpresaController,
+    updateEmpresaController,
+} = require("../controllers/empresa.controller");
+
+// ROUTES
+router.post("/crear", newEmpresaController);
+router.get("/paginated", getEmpresasPaginatedController);
+router.put("/editar/:id", updateEmpresaController);
+router.delete("/eliminar/:id", deleteEmpresaController);
+router.get("/detalle/:id", getEmpresaByIdController);
+router.post("/seleccionar", selectEmpresaController)
 
 module.exports = router;

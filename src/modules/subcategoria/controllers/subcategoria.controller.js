@@ -1,12 +1,13 @@
 // Services
 const {
-  getSubcategoriasService,
-  getSubcategoriasByCategoriaService,
-  getSubcategoriaByIdService,
-  createSubcategoriaService,
-  updateSubcategoriaService,
   changeSubcategoriaEstadoService,
+  createSubcategoriaService,
   deleteSubcategoriaService,
+  getSubcategoriaByIdService,
+  getSubcategoriasByCategoriaService,
+  getSubcategoriasByTipoService,
+  getSubcategoriasService,
+  updateSubcategoriaService,
 } = require("../services");
 
 // Validators
@@ -21,8 +22,7 @@ const getSubcategoriasController = async (
   res
 ) => {
   try {
-    const idEmpresa =
-      obtenerIdEmpresa(req);
+    const idEmpresa = obtenerIdEmpresa(req);
 
     const result =
       await getSubcategoriasService({
@@ -38,15 +38,13 @@ const getSubcategoriasController = async (
 
     return res.status(200).json({
       success: true,
-      message:
-        "Subcategorías obtenidas correctamente.",
+      message: "Subcategorías obtenidas correctamente.",
       data: result,
     });
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message:
-        "No se pudieron obtener las subcategorías.",
+      message: "No se pudieron obtener las subcategorías.",
       error: error.message,
     });
   }
@@ -58,8 +56,7 @@ const getSubcategoriasController = async (
 */
 const getSubcategoriasByCategoriaController = async (req, res) => {
   try {
-    const idEmpresa =
-      obtenerIdEmpresa(req);
+    const idEmpresa = obtenerIdEmpresa(req);
 
     const idCategoria = Number(
       req.params.idCategoria
@@ -194,8 +191,7 @@ const updateSubcategoriaController = async (
   res
 ) => {
   try {
-    const idEmpresa =
-      obtenerIdEmpresa(req);
+    const idEmpresa = obtenerIdEmpresa(req);
 
     const idSubcategoria = Number(
       req.params.id
@@ -292,8 +288,7 @@ const changeSubcategoriaEstadoController = async (
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message:
-        "No se pudo cambiar el estado de la subcategoría.",
+      message: "No se pudo cambiar el estado de la subcategoría.",
       error: error.message,
     });
   }
@@ -349,13 +344,49 @@ const deleteSubcategoriaController = async (
     });
   }
 };
+/*
+|--------------------------------------------------------------------------
+| 8. Obtener subcategorias por tipo
+|--------------------------------------------------------------------------
+*/
+const getSubcategoriasByTipoController = async (req, res) => {
 
+  try {
+    const { tipo } = req.params;
+    const { id_empresa } = req.query;
+
+    if (!id_empresa) {
+      return res.status(400).json({
+        success: false,
+        message: "No se pudo identificar la empresa activa.",
+      });
+    }
+
+    const data = await getSubcategoriasByTipoService({
+      id_empresa,
+      tipo,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Subcategorías obtenidas correctamente.",
+      data,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "No se pudieron obtener las subcategorías.",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   changeSubcategoriaEstadoController,
   createSubcategoriaController,
   deleteSubcategoriaController,
   getSubcategoriaByIdController,
   getSubcategoriasByCategoriaController,
+  getSubcategoriasByTipoController,
   getSubcategoriasController,
   updateSubcategoriaController,
 };

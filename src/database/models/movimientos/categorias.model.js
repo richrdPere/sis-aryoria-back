@@ -28,6 +28,16 @@ const Categoria = sequelize.define("Categoria", {
     allowNull: true,
   },
 
+  naturaleza: {
+    type: DataTypes.ENUM(
+      "VENTA",
+      "COMPRA",
+      "OTRO"
+    ),
+    allowNull: false,
+    defaultValue: "OTRO",
+  },
+
   color: {
     type: DataTypes.STRING(20),
     allowNull: true,

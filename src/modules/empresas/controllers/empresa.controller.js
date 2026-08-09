@@ -1,7 +1,11 @@
 const { newEmpresaService, updateEmpresaService, getEmpresasService, deleteEmpresaService, getEmpresaByIdService, selectEmpresaService } = require("../services");
 
-// 1. Crear Empresa
-const newEmpresa = async (req, res) => {
+/*
+|--------------------------------------------------------------------------
+| 1. Crear Empresa
+|--------------------------------------------------------------------------
+*/
+const newEmpresaController = async (req, res) => {
   try {
     const empresa = await newEmpresaService(req.body);
 
@@ -15,13 +19,17 @@ const newEmpresa = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo crear la empresa.",
+      error: error.message,
     });
   }
 };
-
-// 2. Listar Empresas paginado
-const getEmpresasPaginated = async (req, res) => {
+/*
+|--------------------------------------------------------------------------
+| 2. Listar Empresas paginado
+|--------------------------------------------------------------------------
+*/
+const getEmpresasPaginatedController = async (req, res) => {
   try {
     const {
       page = 1,
@@ -30,6 +38,8 @@ const getEmpresasPaginated = async (req, res) => {
     } = req.query;
 
     const id_usuario = req.usuario.id_usuario;
+
+    console.log("ID USUARIO PAGINADO: ", id_usuario);
 
     const resultado = await getEmpresasService({
       id_usuario,
@@ -41,8 +51,7 @@ const getEmpresasPaginated = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Empresas obtenidas correctamente.",
-      data: resultado.empresas,
-      pagination: resultado.pagination,
+      data: resultado,
     });
   } catch (error) {
     console.error(error);
@@ -54,9 +63,12 @@ const getEmpresasPaginated = async (req, res) => {
     });
   }
 };
-
-// 3. Aztualizar empresa
-const updateEmpresa = async (req, res) => {
+/*
+|--------------------------------------------------------------------------
+| 3. Actualizar empresa
+|--------------------------------------------------------------------------
+*/
+const updateEmpresaController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -75,13 +87,17 @@ const updateEmpresa = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo actualizar la empresa.",
+      error: error.message,
     });
   }
 };
-
-// 4. Eliminar empresa
-const deleteEmpresa = async (req, res) => {
+/*
+|--------------------------------------------------------------------------
+| 4. Eliminar empresa
+|--------------------------------------------------------------------------
+*/
+const deleteEmpresaController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -96,13 +112,17 @@ const deleteEmpresa = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo eliminar la empresa.",
+      error: error.message,
     });
   }
 };
-
-// 5. Obtener empresa por id
-const getEmpresaById = async (req, res) => {
+/*
+|--------------------------------------------------------------------------
+| 5. Obtener empresa por id
+|--------------------------------------------------------------------------
+*/
+const getEmpresaByIdController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -118,13 +138,17 @@ const getEmpresaById = async (req, res) => {
 
     return res.status(404).json({
       success: false,
-      message: error.message,
+      message: "No se pudo obtener la empresa.",
+      error: error.message,
     });
   }
 };
-
-// 6. Seleccionar empresa
-const selectEmpresa = async (req, res, next) => {
+/*
+|--------------------------------------------------------------------------
+| 6. Seleccionar empresa
+|--------------------------------------------------------------------------
+*/
+const selectEmpresaController = async (req, res, next) => {
 
   try {
 
@@ -145,7 +169,8 @@ const selectEmpresa = async (req, res, next) => {
 
     return res.status(404).json({
       success: false,
-      message: error.message,
+      message: "No se pudo seleccionar la empresa.",
+      error: error.message,
     });
   }
 
@@ -153,10 +178,10 @@ const selectEmpresa = async (req, res, next) => {
 
 
 module.exports = {
-  newEmpresa,
-  getEmpresasPaginated,
-  updateEmpresa,
-  deleteEmpresa,
-  getEmpresaById,
-  selectEmpresa
+  deleteEmpresaController,
+  getEmpresaByIdController,
+  getEmpresasPaginatedController,
+  newEmpresaController,
+  selectEmpresaController,
+  updateEmpresaController,
 };
