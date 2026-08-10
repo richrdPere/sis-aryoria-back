@@ -1,20 +1,26 @@
 const express = require("express");
 const router = express.Router();
 
+// Middleware
+const authMiddleware = require("../../../middlewares/auth.middleware");
+router.use(authMiddleware);
+
+// Controllers
 const {
-    createPeriodoC,
-    getPeriodosCPaginado,
-    getPeriodoCById,
-    updatePeriodoC,
-    deletePeriodoC,
-    changeEstadoPeriodoC
+    changeEstadoPeriodoContableController,
+    createPeriodoContableController,
+    deletePeriodoContableController,
+    getPeriodoCByIdController,
+    getPeriodosCPaginadoController,
+    updatePeriodoContableController,
 } = require("../controllers/periodo.controller");
 
-router.post("/crear", createPeriodoC);
-router.get("/paginated", getPeriodosCPaginado);
-router.get("/detalle/:id", getPeriodoCById);
-router.put("/editar/:id", updatePeriodoC);
-router.delete("/eliminar/:id", deletePeriodoC);
-router.patch("/estado/:id", changeEstadoPeriodoC);
+// ROUTES
+router.post("/crear", createPeriodoContableController);
+router.get("/paginated", getPeriodosCPaginadoController);
+router.get("/detalle/:id", getPeriodoCByIdController);
+router.put("/editar/:id", updatePeriodoContableController);
+router.delete("/eliminar/:id", createPeriodoContableController);
+router.patch("/estado/:id", changeEstadoPeriodoContableController);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const { createPeriodoCService, getPeriodosCService, getPeriodoCByIdService, upda
 | 1. Crear Período Contable
 |--------------------------------------------------------------------------
 */
-const createPeriodoC = async (req, res) => {
+const createPeriodoContableController = async (req, res) => {
 
   try {
 
@@ -23,7 +23,8 @@ const createPeriodoC = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo crear el periodo contable.",
+      error: error.message
     });
   }
 };
@@ -32,7 +33,7 @@ const createPeriodoC = async (req, res) => {
 | 2. Listar Periodos Contables
 |--------------------------------------------------------------------------
 */
-const getPeriodosCPaginado = async (req, res) => {
+const getPeriodosCPaginadoController = async (req, res) => {
 
   try {
 
@@ -49,7 +50,8 @@ const getPeriodosCPaginado = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "Error al listar los periodos contable.",
+      error: error.message
     });
   }
 };
@@ -58,7 +60,7 @@ const getPeriodosCPaginado = async (req, res) => {
 | 3. Obtener período contable por ID
 |--------------------------------------------------------------------------
 */
-const getPeriodoCById = async (req, res) => {
+const getPeriodoCByIdController = async (req, res) => {
 
   try {
 
@@ -81,7 +83,8 @@ const getPeriodoCById = async (req, res) => {
 
     return res.status(404).json({
       success: false,
-      message: error.message
+      message: "No se pudo obtener el periodo contable.",
+      error: error.message
     });
   }
 };
@@ -90,7 +93,7 @@ const getPeriodoCById = async (req, res) => {
 | 4. Actualizar Período Contable
 |--------------------------------------------------------------------------
 */
-const updatePeriodoC = async (req, res) => {
+const updatePeriodoContableController = async (req, res) => {
 
   try {
 
@@ -113,7 +116,8 @@ const updatePeriodoC = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo actualizar el periodo contable.",
+      error: error.message
     });
   }
 };
@@ -122,7 +126,7 @@ const updatePeriodoC = async (req, res) => {
 | 5. Eliminar Período Contable
 |--------------------------------------------------------------------------
 */
-const deletePeriodoC = async (req, res) => {
+const deletePeriodoContableController = async (req, res) => {
 
   try {
 
@@ -135,18 +139,16 @@ const deletePeriodoC = async (req, res) => {
     );
 
     return res.status(200).json({
-
       success: true,
-
       message: "Período contable eliminado correctamente."
-
     });
 
   } catch (error) {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo eliminar el periodo contable.",
+      error: error.message
     });
   }
 };
@@ -155,7 +157,7 @@ const deletePeriodoC = async (req, res) => {
 | 6. Cambiar el estado del Periodo Contable
 |--------------------------------------------------------------------------
 */
-const changeEstadoPeriodoC = async (req, res) => {
+const changeEstadoPeriodoContableController = async (req, res) => {
 
   try {
 
@@ -187,10 +189,10 @@ const changeEstadoPeriodoC = async (req, res) => {
 };
 
 module.exports = {
-  createPeriodoC,
-  getPeriodosCPaginado,
-  getPeriodoCById,
-  updatePeriodoC,
-  deletePeriodoC,
-  changeEstadoPeriodoC
+  changeEstadoPeriodoContableController,
+  createPeriodoContableController,
+  deletePeriodoContableController,
+  getPeriodoCByIdController,
+  getPeriodosCPaginadoController,
+  updatePeriodoContableController,
 };
