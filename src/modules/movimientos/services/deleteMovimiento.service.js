@@ -1,24 +1,57 @@
 const db = require("../../../database/models");
 
 // Modelos
-const { Movimiento, PeriodoContable } = db;
+const {
+    Movimiento,
+    PeriodoContable,
+} = db;
 
-const deleteMovimiento = async (id) => {
-
-    // Buscar movimiento
-    const movimiento = await Movimiento.findByPk(id);
-
-    if (!movimiento) {
-        throw new Error("Movimiento no encontrado.");
+const deleteMovimiento = async (
+    idMovimiento,
+    idEmpresa
+) => {
+    // ==========================================================
+    // VALIDACIONES
+    // ==========================================================
+    if (!idMovimiento) {
+        throw new Error("Debe indicar el movimiento.");
     }
 
-    // Verificar período contable
-    const periodo = await PeriodoContable.findByPk(
-        movimiento.id_periodo
-    );
+    if (!idEmpresa) {
+        throw new Error("Debe indicar la empresa.");
+    }
+
+    // ==========================================================
+    // BUSCAR MOVIMIENTO
+    // ==========================================================
+    const movimiento = await Movimiento.findOne({
+        where: {
+            id_movimiento: idMovimiento,
+            id_empresa: idEmpresa,
+            activo: true,
+        },
+    });
+
+    if (!movimiento) {
+        throw new Error(
+            "Movimiento no encontrado o no pertenece a la empresa."
+        );
+    }
+
+    // ==========================================================
+    // VERIFICAR PERÍODO CONTABLE
+    // ==========================================================
+    const periodo = await PeriodoContable.findOne({
+        where: {
+            id_periodo: movimiento.id_periodo,
+            id_empresa: idEmpresa,
+        },
+    });
 
     if (!periodo) {
-        throw new Error("El período contable no existe.");
+        throw new Error(
+            "El período contable no existe o no pertenece a la empresa."
+        );
     }
 
     if (periodo.estado !== "ABIERTO") {
@@ -27,6 +60,9 @@ const deleteMovimiento = async (id) => {
         );
     }
 
+    // ==========================================================
+    // ELIMINAR
+    // ==========================================================
     await movimiento.destroy();
 
     return true;

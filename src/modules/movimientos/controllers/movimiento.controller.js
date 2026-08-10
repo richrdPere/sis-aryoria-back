@@ -11,7 +11,7 @@ const {
 | 1. Registrar Movimiento
 |--------------------------------------------------------------------------
 */
-const registerMovimiento = async (req, res) => {
+const registerMovimientoController = async (req, res) => {
   try {
 
     const movimiento = await registerMovimientoService(req.body);
@@ -27,16 +27,17 @@ const registerMovimiento = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo crear el movimiento.",
+      error: error.message,
     });
   }
 };
 /*
 |--------------------------------------------------------------------------
-| 2. Listar movimientos
+| 2. Listar movimientos paginado
 |--------------------------------------------------------------------------
 */
-const getMovimientosPaginado = async (req, res) => {
+const getMovimientosPaginadoController = async (req, res) => {
 
   try {
 
@@ -45,8 +46,7 @@ const getMovimientosPaginado = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Movimientos obtenidos correctamente.",
-      data: resultado.movimientos,
-      pagination: resultado.pagination
+      data: resultado,
     });
 
   }
@@ -65,13 +65,17 @@ const getMovimientosPaginado = async (req, res) => {
 | 3. Obtener movimiento por ID
 |--------------------------------------------------------------------------
 */
-const getMovimientoById = async (req, res) => {
+const getMovimientoByIdController = async (req, res) => {
 
   try {
 
     const { id } = req.params;
+    const { id_empresa } = req.query;
 
-    const movimiento = await getMovimientoByIdService(id);
+    const movimiento = await getMovimientoByIdService(
+      id,
+      id_empresa
+    );
 
     return res.status(200).json({
       success: true,
@@ -83,7 +87,8 @@ const getMovimientoById = async (req, res) => {
 
     return res.status(404).json({
       success: false,
-      message: error.message,
+      message: "No se pudo obtener el movimiento.",
+      error: error.message,
     });
   }
 };
@@ -92,13 +97,14 @@ const getMovimientoById = async (req, res) => {
 | 4. Actualizar movimiento
 |--------------------------------------------------------------------------
 */
-const updateMovimiento = async (req, res) => {
+const updateMovimientoController = async (req, res) => {
 
   try {
 
     const { id } = req.params;
+    const { id_empresa } = req.query;
 
-    const movimiento = await updateMovimientoService(id, req.body);
+    const movimiento = await updateMovimientoService(id, id_empresa, req.body);
 
     return res.status(200).json({
       success: true,
@@ -110,7 +116,8 @@ const updateMovimiento = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo actualizar el movimiento.",
+      error: error.message,
     });
   }
 };
@@ -119,13 +126,17 @@ const updateMovimiento = async (req, res) => {
 | 5. Eliminar movimiento
 |--------------------------------------------------------------------------
 */
-const deleteMovimiento = async (req, res) => {
+const deleteMovimientoController = async (req, res) => {
 
   try {
 
     const { id } = req.params;
+    const { id_empresa } = req.query;
 
-    await deleteMovimientoService(id);
+    await deleteMovimientoService(
+      id,
+      id_empresa
+    );
 
     return res.status(200).json({
       success: true,
@@ -138,15 +149,16 @@ const deleteMovimiento = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo eliminar el movimiento.",
+      error: error.message,
     });
   }
 };
 
 module.exports = {
-  registerMovimiento,
-  getMovimientosPaginado,
-  getMovimientoById,
-  updateMovimiento,
-  deleteMovimiento
+  deleteMovimientoController,
+  getMovimientoByIdController,
+  getMovimientosPaginadoController,
+  registerMovimientoController,
+  updateMovimientoController,
 }

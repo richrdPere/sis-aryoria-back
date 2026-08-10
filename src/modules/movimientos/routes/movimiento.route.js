@@ -1,18 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
+// Middleware
+const authMiddleware = require("../../../middlewares/auth.middleware");
+router.use(authMiddleware);
+
+// Controllers
 const {
-    registerMovimiento,
-    getMovimientosPaginado,
-    getMovimientoById,
-    updateMovimiento,
-    deleteMovimiento
+    deleteMovimientoController,
+    getMovimientoByIdController,
+    getMovimientosPaginadoController,
+    registerMovimientoController,
+    updateMovimientoController,
 } = require("../controllers/movimiento.controller");
 
+// ROUTES
+router.post("/crear", registerMovimientoController);
+router.get("/paginated", getMovimientosPaginadoController);
+router.get("/detalle/:id", getMovimientoByIdController);
+router.put("/editar/:id", updateMovimientoController);
+router.delete("/eliminar/:id", deleteMovimientoController);
 
-router.post("/crear", registerMovimiento);
-router.get("/paginated", getMovimientosPaginado);
-router.get("/detalle/:id", getMovimientoById);
-router.put("/editar/:id", updateMovimiento);
-router.delete("/eliminar/:id", deleteMovimiento);
 module.exports = router;

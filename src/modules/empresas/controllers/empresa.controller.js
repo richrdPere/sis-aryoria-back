@@ -39,8 +39,6 @@ const getEmpresasPaginatedController = async (req, res) => {
 
     const id_usuario = req.usuario.id_usuario;
 
-    console.log("ID USUARIO PAGINADO: ", id_usuario);
-
     const resultado = await getEmpresasService({
       id_usuario,
       page,

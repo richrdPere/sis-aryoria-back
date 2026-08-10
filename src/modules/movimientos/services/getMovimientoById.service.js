@@ -5,16 +5,35 @@ const {
     Movimiento,
     Empresa,
     Categoria,
+    Subcategoria,
     Usuario,
     PeriodoContable,
+    // Cuenta, // Descomenta si ya tienes esta relación
 } = db;
 
-const getMovimientoById = async (id) => {
+const getMovimientoById = async (idMovimiento, idEmpresa) => {
+    // ==========================================================
+    // VALIDACIONES
+    // ==========================================================
+    if (!idMovimiento) {
+        throw new Error("Debe indicar el movimiento.");
+    }
 
-    const movimiento = await Movimiento.findByPk(id, {
+    if (!idEmpresa) {
+        throw new Error("Debe indicar la empresa.");
+    }
+
+    // ==========================================================
+    // CONSULTA
+    // ==========================================================
+    const movimiento = await Movimiento.findOne({
+        where: {
+            id_movimiento: idMovimiento,
+            id_empresa: idEmpresa,
+            activo: true,
+        },
 
         include: [
-
             {
                 model: Empresa,
                 as: "empresa",
@@ -25,6 +44,7 @@ const getMovimientoById = async (id) => {
                     "ruc",
                 ],
             },
+
             {
                 model: Categoria,
                 as: "categoria",
@@ -36,6 +56,19 @@ const getMovimientoById = async (id) => {
                     "icono",
                 ],
             },
+
+            {
+                model: Subcategoria,
+                as: "subcategoria",
+                attributes: [
+                    "id_subcategoria",
+                    "id_categoria",
+                    "nombre",
+                    "naturaleza",
+                    "estado",
+                ],
+            },
+
             {
                 model: Usuario,
                 as: "usuario",
@@ -45,6 +78,7 @@ const getMovimientoById = async (id) => {
                     "email",
                 ],
             },
+
             {
                 model: PeriodoContable,
                 as: "periodoContable",
@@ -56,13 +90,37 @@ const getMovimientoById = async (id) => {
                     "estado",
                     "fecha_inicio",
                     "fecha_fin",
+                    "saldo_inicial",
+                    "saldo_final",
                 ],
             },
+
+            // ======================================================
+            // SI YA TIENES CUENTA
+            // ======================================================
+
+            /*
+            {
+              model: Cuenta,
+              as: "cuenta",
+              attributes: [
+                "id_cuenta",
+                "nombre",
+                "tipo",
+              ],
+              required: false,
+            },
+            */
         ],
     });
 
+    // ==========================================================
+    // VALIDAR RESULTADO
+    // ==========================================================
     if (!movimiento) {
-        throw new Error("Movimiento no encontrado.");
+        throw new Error(
+            "Movimiento no encontrado o no pertenece a la empresa."
+        );
     }
 
     return movimiento;
