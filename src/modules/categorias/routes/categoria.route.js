@@ -1,13 +1,28 @@
 const express = require("express");
 const router = express.Router();
 
-const { createCategoria, getCategoriasPaginado, getCategoriaById, getCategoriaByTipo, updateCategoria, deleteCategoria } = require("../controllers/categoria.controller");
 
-router.post("/crear", createCategoria);
-router.get("/paginated", getCategoriasPaginado);
-router.get("/detalle/:id", getCategoriaById);
-router.get("/tipo/:tipo", getCategoriaByTipo);
-router.put("/editar/:id", updateCategoria);
-router.delete("/eliminar/:id", deleteCategoria);
+// Middleware
+const authMiddleware = require("../../../middlewares/auth.middleware");
+router.use(authMiddleware);
+
+// Controllers
+const {
+    createCategoriaController,
+    deleteCategoriaController,
+    getCategoriaByIdController,
+    getCategoriaByTipoController,
+    getCategoriasPaginadoController,
+    updateCategoriaController,
+
+} = require("../controllers/categoria.controller");
+
+// ROUTES
+router.post("/crear", createCategoriaController);
+router.get("/paginated", getCategoriasPaginadoController);
+router.get("/detalle/:id", getCategoriaByIdController);
+router.get("/tipo/:tipo", getCategoriaByTipoController);
+router.put("/editar/:id", updateCategoriaController);
+router.delete("/eliminar/:id", deleteCategoriaController);
 
 module.exports = router;

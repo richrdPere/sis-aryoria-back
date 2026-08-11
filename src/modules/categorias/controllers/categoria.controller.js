@@ -11,7 +11,7 @@ const {
 | 1. Crear categoria
 |--------------------------------------------------------------------------
 */
-const createCategoria = async (req, res) => {
+const createCategoriaController = async (req, res) => {
 
   try {
 
@@ -27,7 +27,8 @@ const createCategoria = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message,
+      message: "No se pudo crear la categoria.",
+      error: error.message,
     });
   }
 };
@@ -36,18 +37,15 @@ const createCategoria = async (req, res) => {
 | 2. Listar Categorias con paginado
 |--------------------------------------------------------------------------
 */
-const getCategoriasPaginado = async (req, res) => {
+const getCategoriasPaginadoController = async (req, res) => {
   try {
 
     const resultado = await getCategoriasService(req.query);
 
     return res.status(200).json({
-
       success: true,
       message: "Categorías obtenidas correctamente.",
-      data: resultado.categorias,
-      pagination: resultado.pagination,
-
+      data: resultado,
     });
 
   } catch (error) {
@@ -64,7 +62,7 @@ const getCategoriasPaginado = async (req, res) => {
 | 3.- Obtener categoria por ID
 |--------------------------------------------------------------------------
 */
-const getCategoriaById = async (req, res) => {
+const getCategoriaByIdController = async (req, res) => {
 
   try {
 
@@ -81,7 +79,8 @@ const getCategoriaById = async (req, res) => {
   } catch (error) {
     return res.status(404).json({
       success: false,
-      message: error.message
+      message: "No se pudo obtener la categoria.",
+      error: error.message
     });
   }
 };
@@ -90,7 +89,7 @@ const getCategoriaById = async (req, res) => {
 | 4.- Obtener categorias por Tipo
 |--------------------------------------------------------------------------
 */
-const getCategoriaByTipo = async (req, res) => {
+const getCategoriaByTipoController = async (req, res) => {
   try {
     const { tipo } = req.params;
     const { id_empresa } = req.query;
@@ -109,7 +108,8 @@ const getCategoriaByTipo = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo obtener la categoria por tipo.",
+      error: error.message
     });
   }
 };
@@ -118,7 +118,7 @@ const getCategoriaByTipo = async (req, res) => {
 | 5. Actualizar categoria
 |--------------------------------------------------------------------------
 */
-const updateCategoria = async (req, res) => {
+const updateCategoriaController = async (req, res) => {
 
   try {
 
@@ -135,7 +135,8 @@ const updateCategoria = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo actualizar la categoria.",
+      error: error.message
     });
   }
 };
@@ -144,7 +145,7 @@ const updateCategoria = async (req, res) => {
 | 6. Eliminar categoria
 |--------------------------------------------------------------------------
 */
-const deleteCategoria = async (req, res) => {
+const deleteCategoriaController = async (req, res) => {
 
   try {
 
@@ -161,17 +162,18 @@ const deleteCategoria = async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "No se pudo eliminar la categoria.",
+      error: error.message
     });
   }
 };
 
 
 module.exports = {
-  createCategoria,
-  getCategoriasPaginado,
-  getCategoriaById,
-  getCategoriaByTipo,
-  updateCategoria,
-  deleteCategoria
+  createCategoriaController,
+  deleteCategoriaController,
+  getCategoriaByIdController,
+  getCategoriaByTipoController,
+  getCategoriasPaginadoController,
+  updateCategoriaController,
 };

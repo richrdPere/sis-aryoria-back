@@ -10,6 +10,7 @@ const movimientoRoutes = require("../modules/movimientos/routes/movimiento.route
 const reporteRoutes = require("../modules/reportes/routes/reporte.routes");
 const subcategoriaRoutes = require("../modules/subcategoria/routes/subcategoria.routes");
 const flujoContableRoutes = require("../modules/flujo_contable/routes/flujo_contable.routes");
+const usuariosRoutes = require("../modules/usuarios/routes/usuarios.routes");
 
 //  rutas
 router.use("/auth", authRoutes);
@@ -21,5 +22,6 @@ router.use("/movimientos", movimientoRoutes);
 router.use("/reportes", reporteRoutes);
 router.use("/subcategorias", subcategoriaRoutes);
 router.use("/flujo-contable", flujoContableRoutes);
+router.use("/usuarios", usuariosRoutes);
 
 module.exports = router;

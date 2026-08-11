@@ -7,7 +7,6 @@ const {
 } = db;
 
 const createCategoria = async (data) => {
-
   const {
     id_empresa,
     nombre,
@@ -21,26 +20,39 @@ const createCategoria = async (data) => {
   // ============================================================
   // 1. VALIDAR EMPRESA
   // ============================================================
-  const empresa = await Empresa.findByPk(id_empresa);
+  if (!id_empresa) {
+    throw new Error(
+      "La empresa es obligatoria."
+    );
+  }
+
+  const empresa = await Empresa.findByPk(
+    id_empresa
+  );
 
   if (!empresa) {
-    throw new Error("La empresa no existe.");
+    throw new Error(
+      "La empresa no existe."
+    );
   }
 
   // ============================================================
   // 2. NORMALIZAR DATOS
   // ============================================================
-  const nombreNormalizado = typeof nombre === "string"
-    ? nombre.trim()
-    : nombre;
+  const nombreNormalizado =
+    typeof nombre === "string"
+      ? nombre.trim()
+      : nombre;
 
-  const tipoNormalizado = typeof tipo === "string"
-    ? tipo.trim().toUpperCase()
-    : tipo;
+  const tipoNormalizado =
+    typeof tipo === "string"
+      ? tipo.trim().toUpperCase()
+      : tipo;
 
-  const naturalezaNormalizada = typeof naturaleza === "string"
-    ? naturaleza.trim().toUpperCase()
-    : naturaleza;
+  const naturalezaNormalizada =
+    typeof naturaleza === "string"
+      ? naturaleza.trim().toUpperCase()
+      : naturaleza;
 
   // ============================================================
   // 3. VALIDACIONES
@@ -56,7 +68,11 @@ const createCategoria = async (data) => {
     "EGRESO",
   ];
 
-  if (!tiposPermitidos.includes(tipoNormalizado)) {
+  if (
+    !tiposPermitidos.includes(
+      tipoNormalizado
+    )
+  ) {
     throw new Error(
       "El tipo de categoría debe ser INGRESO o EGRESO."
     );
@@ -79,14 +95,15 @@ const createCategoria = async (data) => {
   }
 
   // ============================================================
-  // 4. VALIDAR COHERENCIA TIPO / NATURALEZA
+  // 4. COHERENCIA TIPO / NATURALEZA
   // ============================================================
   if (
     naturalezaNormalizada === "VENTA" &&
     tipoNormalizado !== "INGRESO"
   ) {
     throw new Error(
-      "Una categoría de naturaleza VENTA debe ser de tipo INGRESO."
+      "Una categoría de naturaleza VENTA "
+      + "debe ser de tipo INGRESO."
     );
   }
 
@@ -95,12 +112,14 @@ const createCategoria = async (data) => {
     tipoNormalizado !== "EGRESO"
   ) {
     throw new Error(
-      "Una categoría de naturaleza COMPRA debe ser de tipo EGRESO."
+      "Una categoría de naturaleza COMPRA "
+      + "debe ser de tipo EGRESO."
     );
   }
 
   // ============================================================
   // 5. VALIDAR DUPLICADO
+  // Incluye eliminados lógicamente.
   // ============================================================
   const existe = await Categoria.findOne({
     where: {
@@ -108,31 +127,58 @@ const createCategoria = async (data) => {
       nombre: nombreNormalizado,
       tipo: tipoNormalizado,
     },
+    paranoid: false,
   });
 
   if (existe) {
+    if (existe.deleted_at != null) {
+      throw new Error(
+        "Ya existió una categoría con ese nombre "
+        + "para este tipo."
+      );
+    }
+
     throw new Error(
-      "Ya existe una categoría con ese nombre para este tipo."
+      "Ya existe una categoría con ese nombre "
+      + "para este tipo."
     );
   }
 
   // ============================================================
-  // 6. CREAR CATEGORÍA
+  // 6. NORMALIZAR OPCIONALES
+  // ============================================================
+  const descripcionNormalizada =
+    typeof descripcion === "string"
+      ? descripcion.trim() || null
+      : descripcion ?? null;
+
+  const colorNormalizado =
+    typeof color === "string"
+      ? color.trim() || null
+      : color ?? null;
+
+  const iconoNormalizado =
+    typeof icono === "string"
+      ? icono.trim() || null
+      : icono ?? null;
+
+  // ============================================================
+  // 7. CREAR CATEGORÍA
   // ============================================================
   const categoria = await Categoria.create({
     id_empresa,
     nombre: nombreNormalizado,
     tipo: tipoNormalizado,
     naturaleza: naturalezaNormalizada,
-    descripcion: typeof descripcion === "string"
-      ? descripcion.trim() || null
-      : descripcion ?? null,
-    color: typeof color === "string"
-      ? color.trim() || null
-      : color ?? null,
-    icono: typeof icono === "string"
-      ? icono.trim() || null
-      : icono ?? null,
+    descripcion:
+      descripcionNormalizada,
+    color:
+      colorNormalizado,
+    icono:
+      iconoNormalizado,
+
+    // estado no es necesario:
+    // defaultValue = true
   });
 
   return categoria;

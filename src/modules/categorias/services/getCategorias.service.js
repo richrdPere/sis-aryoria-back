@@ -4,11 +4,17 @@ const { Op } = require("sequelize");
 const { Categoria } = db;
 
 const getCategorias = async (query) => {
+  // ==========================================================
+  // PAGINACIÓN
+  // ==========================================================
+  const page = Math.max(parseInt(query.page) || 1, 1);
+  const limit = Math.max(parseInt(query.limit) || 10, 1);
 
-  const page = parseInt(query.page) || 1;
-  const limit = parseInt(query.limit) || 10;
   const offset = (page - 1) * limit;
 
+  // ==========================================================
+  // FILTROS
+  // ==========================================================
   const where = {};
 
   // Empresa
@@ -18,43 +24,65 @@ const getCategorias = async (query) => {
 
   // Tipo
   if (query.tipo) {
-    where.tipo = query.tipo.toUpperCase();
+    where.tipo = query.tipo.trim().toUpperCase();
   }
 
   // Estado
   if (query.estado !== undefined) {
-    where.estado = query.estado === "true";
+    where.estado =
+      query.estado.toString().toLowerCase() === "true";
   }
 
   // Búsqueda
   if (query.search) {
-    where.nombre = {
-      [Op.like]: `%${query.search}%`
-    };
+    const search = query.search.trim();
+
+    if (search) {
+      where.nombre = {
+        [Op.like]: `%${search}%`,
+      };
+    }
   }
 
-  const { rows, count } = await Categoria.findAndCountAll({
+  // ==========================================================
+  // CONSULTA
+  // ==========================================================
+  const { rows, count } =
+    await Categoria.findAndCountAll({
+      where,
 
-    where,
+      order: [
+        ["nombre", "ASC"],
+      ],
 
-    order: [
-      ["nombre", "ASC"]
-    ],
+      offset,
+      limit,
+    });
 
-    offset,
+  // ==========================================================
+  // PAGINACIÓN
+  // ==========================================================
+  const totalPages = Math.ceil(count / limit);
 
-    limit,
+  const hasNextPage =
+    page < totalPages;
 
-  });
+  const hasPreviousPage =
+    page > 1;
 
+  // ==========================================================
+  // RESPONSE
+  // ==========================================================
   return {
-    categorias: rows,
+    items: rows,
     pagination: {
       total: count,
       page,
       limit,
-      totalPages: Math.ceil(count / limit)
-    }
+      totalPages,
+      hasNextPage,
+      hasPreviousPage,
+    },
   };
 };
 
