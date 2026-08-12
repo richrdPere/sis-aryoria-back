@@ -70,10 +70,6 @@ if (!fs.existsSync(uploadsRoot)) {
       recursive: true,
     }
   );
-
-  // console.log(
-  //   `📁 Directorio de uploads creado: ${uploadsRoot}`
-  // );
 }
 
 // ==========================================================
