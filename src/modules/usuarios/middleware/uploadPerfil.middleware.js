@@ -9,9 +9,9 @@ const storage = multer.memoryStorage();
 // TIPOS PERMITIDOS
 // ==========================================================
 const fileFilter = (req, file, cb) => {
-    console.log(
-        `Archivo recibido: ${file.originalname} | ${file.mimetype}`
-    );
+    // console.log(
+    //     `Archivo recibido: ${file.originalname} | ${file.mimetype}`
+    // );
 
     const tiposPermitidos = [
         "image/jpeg",

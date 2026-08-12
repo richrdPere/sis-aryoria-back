@@ -71,9 +71,9 @@ if (!fs.existsSync(uploadsRoot)) {
     }
   );
 
-  console.log(
-    `📁 Directorio de uploads creado: ${uploadsRoot}`
-  );
+  // console.log(
+  //   `📁 Directorio de uploads creado: ${uploadsRoot}`
+  // );
 }
 
 // ==========================================================
@@ -116,9 +116,9 @@ const startServer = async () => {
     await crearAdminPorDefecto();
 
     // UPLOADS
-    console.log(
-      `📁 Uploads disponibles en: ${uploadsRoot}`
-    );
+    // console.log(
+    //   `📁 Uploads disponibles en: ${uploadsRoot}`
+    // );
   } catch (error) {
     console.error(
       "❌ Error al iniciar servidor:",
